@@ -1,7 +1,8 @@
-package main.java.app;
+package main.java;
 
 import javax.swing.SwingUtilities;
 
+import main.java.app.App;
 import main.java.gui.Gui;
 import main.java.gui.util.ExceptionPrinter;
 

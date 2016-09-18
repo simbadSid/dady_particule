@@ -41,12 +41,15 @@ public class EventListener_button implements ActionListener
 	{
 		try
 		{
-			this.targetMethod.invoke(this.targetObject, this.targetMethodParameter);
+			if (this.targetMethodParameter == null)
+				this.targetMethod.invoke(this.targetObject);
+			else
+				this.targetMethod.invoke(this.targetObject, this.targetMethodParameter);
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			ExceptionPrinter.printError("Resizer: method execution error", true);
+			ExceptionPrinter.printError("Button listener: method execution error", true);
 		}
 	}
 }

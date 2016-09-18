@@ -1,9 +1,15 @@
 package main.java.gui.panel;
 
+import java.awt.GridLayout;
+import java.lang.reflect.Method;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
+import javax.swing.border.EmptyBorder;
+import main.java.app.App;
+import main.java.gui.Gui;
 import main.java.gui.GuiResource;
-
+import main.java.gui.util.EventListener_button;
 
 
 
@@ -11,7 +17,7 @@ import main.java.gui.GuiResource;
 
 
 @SuppressWarnings("serial")
-public class PanelBeta extends JPanel
+public class PanelZoomPlot extends JPanel
 {
 // -------------------------------------------------
 // Attributes
@@ -21,9 +27,9 @@ public class PanelBeta extends JPanel
 // -------------------------------------------------
 // Builder
 // -------------------------------------------------
-	public PanelBeta()
+	public PanelZoomPlot()
 	{
-		this.setBackground(GuiResource.panelBeta_colorBG);
+		this.setBackground(GuiResource.panelZoomPlot_colorBG);
 	}
 
 

@@ -1,0 +1,38 @@
+
+
+Parameters:
+	xmin and xmax:	default values
+	beta :			default value
+	x0, y0:			default value
+
+
+Main algo
+	while (true)
+	{
+		if (reinitializeComputation)
+		{
+			x = x0
+			y = y0
+		}
+		x = f(x0, y0, beta);
+		y = f(x0, y0, beta);
+
+		print x, y (graphic)
+	
+	}
+
+
+Outside commands:
+	- Stop program 
+	- Restart program (withou modification) (toggle) without clearing screen
+	- Reinitialize: Clear figure (without sopting workThread) and restart from x0, y0
+	- Clear figure (without sopting workThread) and restart from x, y
+
+	- Right click: x,y becomes the center: the dimensions are divided/multiplied by 2. New xMax = x + newDx
+
+	- Click on figure: test the validity and confirm.   The point becomes x0, y0.  Restart the computation from x0, y0 (Ask for clearing screen)
+	- Reinitialise xmin xmax to the initial value
+	- Change beta: clear panel recompute x0, y0, and restart from x0.
+
+Initial:
+	compute x0,y0 from

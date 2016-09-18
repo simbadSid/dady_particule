@@ -1,7 +1,9 @@
 package main.java.gui;
 
-import java.awt.Color;
+
+import java.io.FileOutputStream;
 import java.lang.reflect.Method;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
@@ -21,14 +23,14 @@ public class Gui
 // -------------------------------------------------
 	private JFrame			frame;											// Main frame
 	private PanelDraw		panelDraw;										// Top left panel
-	private PanelBeta		panelBeta;										// Bottom left panel
+	private PanelControl	panelControl;									// Bottom left panel
 	private PanelZoom		panelZoom;										// Top right panel
 	private PanelCenterSet	panelCenterSet;									// Middle right panel
-	private PanelButton		panelButton;									// Bottom right panel
+	private PanelZoomPlot	panelZoomPlot;									// Bottom right panel
 	private JSplitPane 		frameOrganizer_Left_Right;
 	private JSplitPane 		frameOrganizerLeft;
-	private JSplitPane 		frameOrganizerRight;
 	private JSplitPane 		frameOrganizerRightTop;
+	private JSplitPane 		frameOrganizerRight;
 
 
 // -------------------------------------------------
@@ -41,20 +43,19 @@ public class Gui
 		assert((GuiResource.frame_partitionHeightLeft		> 0) && (GuiResource.frame_partitionHeightLeft			< 1));
 		assert((GuiResource.frame_partitionHeightRight		> 0) && (GuiResource.frame_partitionHeightRight			< 1));
 		assert((GuiResource.frame_partitionHeightRightTop	> 0) && (GuiResource.frame_partitionHeightRightTop		< 1));
-		assert((GuiResource.frame_partitionHeightRightMiddle> 0) && (GuiResource.frame_partitionHeightRightMiddle	< 1));
 
 		// Build main frame and sub panels
 		this.frame			= new JFrame(GuiResource.frame_title);
-		this.panelDraw		= new PanelDraw		();
-		this.panelBeta		= new PanelBeta		();
-		this.panelZoom		= new PanelZoom		();
-		this.panelCenterSet	= new PanelCenterSet();
-		this.panelButton	= new PanelButton	(app);
+		this.panelDraw		= new PanelDraw		(app, this);
+		this.panelControl	= new PanelControl	(app, this);
+		this.panelZoom		= new PanelZoom		(app);
+		this.panelCenterSet	= new PanelCenterSet(app);
+		this.panelZoomPlot	= new PanelZoomPlot	();
 
 		// Organize sub panels within the main frame
 		this.frameOrganizerRightTop		= new JSplitPane(JSplitPane.VERTICAL_SPLIT, 	this.panelZoom,				this.panelCenterSet);
-		this.frameOrganizerRight		= new JSplitPane(JSplitPane.VERTICAL_SPLIT, 	this.frameOrganizerRightTop,this.panelButton);
-		this.frameOrganizerLeft			= new JSplitPane(JSplitPane.VERTICAL_SPLIT, 	this.panelDraw,				this.panelBeta);
+		this.frameOrganizerRight		= new JSplitPane(JSplitPane.VERTICAL_SPLIT, 	this.frameOrganizerRightTop,this.panelZoomPlot);
+		this.frameOrganizerLeft			= new JSplitPane(JSplitPane.VERTICAL_SPLIT, 	this.panelDraw,				this.panelControl);
 		this.frameOrganizer_Left_Right	= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,	this.frameOrganizerLeft,	this.frameOrganizerRight);
 
 		// Set dividers parameters
@@ -81,18 +82,35 @@ public class Gui
 // -------------------------------------------------
 // Public methods
 // -------------------------------------------------
+	public void save(FileOutputStream outputFile)
+	{
+		this.panelDraw.save(outputFile);
+	}
 
 
 // -------------------------------------------------
 // Private methods
 // -------------------------------------------------
+	public void setMousePosition(double x, double y)
+	{
+		double translatedX = x;		// TODO
+		double translatedY = y;		// TODO
+
+		this.panelCenterSet.setMousePosition(translatedX, translatedY);
+	}
+
+
+	public void setMouseExited()
+	{
+		this.panelCenterSet.setMouseExited();
+	}
+
+
 	public void setSize(int width, int height)
 	{
-		double rightPartition = height * GuiResource.frame_partitionHeightRightTop;
-
 		this.frameOrganizer_Left_Right	.setDividerLocation(GuiResource.frame_partitionWidth);
 		this.frameOrganizerLeft			.setDividerLocation(GuiResource.frame_partitionHeightLeft);
 		this.frameOrganizerRight		.setDividerLocation(GuiResource.frame_partitionHeightRight);
-		this.frameOrganizerRightTop		.setDividerLocation((int)rightPartition);
+		this.frameOrganizerRightTop		.setDividerLocation(GuiResource.frame_partitionHeightRightTop);
 	}
 }
