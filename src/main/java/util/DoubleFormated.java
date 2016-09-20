@@ -19,15 +19,15 @@ public class DoubleFormated
 //		{
 			
 //		}
-
-		return appendSpace(res, nbrChar);
+return res;
+//		return appendSpace(res, nbrChar);
 	}
 
 
 // -------------------------------------------------
 // Private methods
 // -------------------------------------------------
-	private static String appendSpace(String value, int nbrChar)
+/*	private static String appendSpace(String value, int nbrChar)
 	{
 		if (value.length() > nbrChar) return null;
 
@@ -40,4 +40,5 @@ public class DoubleFormated
 
 		return res;
 	}
+*/
 }

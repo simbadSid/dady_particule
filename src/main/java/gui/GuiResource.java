@@ -18,18 +18,19 @@ public class GuiResource
 	public static final double		frame_partitionHeightLeft					= 8./10;				//		Vertical division of the frame
 	public static final double		frame_partitionHeightRight					= 5./10;				//		Vertical division of the frame (top + middle part)
 	public static final double		frame_partitionHeightRightTop				= 1./2;					//		Vertical division of the frame (top part compared to middle)
-//TODO	public static final int		frame_secureH		= 55;
+	public static final int			frame_secure								= 6;
 	public static final boolean		frame_organizerEnabled						= false;
 	public static final int			frame_organizerSize							= 5;
 																										// TODO to move: Color of sub panels
 	public static final Color		panelDraw_colorBG							= Color.black;
 	public static final Color		panelZoomPlot_colorBG						= Color.red;
 
-																										// Panel button
+																										// Panel control
 	public static final Color		panelControl_colorBG						= Color.green;			//		Colors
-	public static final String		panelControl_label_BetaMin					= "Beta min: %f";		//		Label
+	public static final String		panelControl_mainLabel						= "Initial value";		//		Label
+	public static final String		panelControl_label_BetaMin					= "Beta min: %f";
 	public static final String		panelControl_label_BetaMax					= "Beta max: %f";
-	public static final String		panelControl_buttonLabel_SetBetaValue		= "Set beta value";
+	public static final String		panelControl_buttonLabel_SetBetaValue		= "Beta ...";
 	public static final String		panelControl_buttonLabel_StartPause			= "Start / Pause";
 	public static final String		panelControl_buttonLabel_Reinit				= "Reinit";
 	public static final String		panelControl_buttonLabel_Clear				= "Clear";

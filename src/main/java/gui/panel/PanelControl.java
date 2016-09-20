@@ -1,16 +1,20 @@
 package main.java.gui.panel;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.lang.reflect.Method;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 
 import main.java.app.App;
 import main.java.gui.Gui;
@@ -49,22 +53,27 @@ public class PanelControl extends JPanel
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.setBorder(new EmptyBorder(GuiResource.panelControl_marginTop, GuiResource.panelControl_marginLeft, GuiResource.panelControl_marginBottom, GuiResource.panelControl_marginRight));
 
-		panelTop.setBorder(new EmptyBorder(GuiResource.panelControl_marginLabelTop, GuiResource.panelControl_marginLabelLeft, GuiResource.panelControl_marginLabelBottom, GuiResource.panelControl_marginLabelRight));
 		JLabel labelBetaMin	= new JLabel(String.format(GuiResource.panelControl_label_BetaMin, App.betaMin));
 		JLabel labelBetaMax	= new JLabel(String.format(GuiResource.panelControl_label_BetaMax, App.betaMax));
-		JButton buttonBetaValue = new JButton();
-		buttonBetaValue.setText(GuiResource.panelControl_buttonLabel_SetBetaValue);
-//TODO		buttonBetaValue.addActionListener();
-		panelTop.add(new JLabel(),		Component.LEFT_ALIGNMENT);
-		panelTop.add(buttonBetaValue,	Component.CENTER_ALIGNMENT);
-		panelTop.add(new JLabel(),		Component.RIGHT_ALIGNMENT);
-		
+
 		JScrollBar scrollBarBetaValue = new JScrollBar(JScrollBar.HORIZONTAL);
 		scrollBarBetaValue.setBorder(new EmptyBorder(GuiResource.panelControl_marginLabelTop, GuiResource.panelControl_marginLabelLeft, GuiResource.panelControl_marginLabelBottom, GuiResource.panelControl_marginLabelRight));
 //TODO		scrollBarBetaValue.addAdjustmentListener();
+
+		JButton buttonBetaValue = new JButton(GuiResource.panelControl_buttonLabel_SetBetaValue);
+//TODO		buttonBetaValue.addActionListener();
+
+		panelTop.setBorder(new TitledBorder(BorderFactory.createLineBorder(GuiResource.panelZoom_colorBorder), GuiResource.panelControl_mainLabel));
+		panelTop.setLayout(new BoxLayout(panelTop, BoxLayout.LINE_AXIS));
+		panelTop.setBorder(new EmptyBorder(GuiResource.panelControl_marginLabelTop, GuiResource.panelControl_marginLabelLeft, GuiResource.panelControl_marginLabelBottom, GuiResource.panelControl_marginLabelRight));
+		panelTop.add(labelBetaMin,		Component.LEFT_ALIGNMENT);
+		panelTop.add(scrollBarBetaValue,Component.CENTER_ALIGNMENT);
+		panelTop.add(labelBetaMax,		Component.RIGHT_ALIGNMENT);
+
+		panelMiddle.add(buttonBetaValue);
 		
 		
-		
+		panelBottom.setBorder(new EmptyBorder(GuiResource.panelControl_marginLabelTop, GuiResource.panelControl_marginLabelLeft, GuiResource.panelControl_marginLabelBottom, GuiResource.panelControl_marginLabelRight));
 		JButton buttonStartPause = new JButton(GuiResource.panelControl_buttonLabel_StartPause);
 //TODO		buttonStartPause.addActionListener();
 
@@ -88,7 +97,9 @@ public class PanelControl extends JPanel
 		panelBottom.add(buttonExit);
 
 		this.add(panelTop);
-		this.add(panelMiddle);
+		this.add(panelMiddle,	Component.CENTER_ALIGNMENT);
+//		this.add(scrollBarBetaValue, JComponent.TOP_ALIGNMENT);
+//		this.add(panelMiddle);
 		this.add(panelBottom);
 	}
 

@@ -16,8 +16,6 @@ import main.java.gui.util.EventListener_resizer;
 
 public class Gui
 {
-
-
 // -------------------------------------------------
 // Attributes
 // -------------------------------------------------
@@ -112,5 +110,13 @@ public class Gui
 		this.frameOrganizerLeft			.setDividerLocation(GuiResource.frame_partitionHeightLeft);
 		this.frameOrganizerRight		.setDividerLocation(GuiResource.frame_partitionHeightRight);
 		this.frameOrganizerRightTop		.setDividerLocation(GuiResource.frame_partitionHeightRightTop);
+
+		double widthPanelDraw		= this.frameOrganizer_Left_Right.getLastDividerLocation()	- GuiResource.frame_secure;
+		double heightPanelDraw		= this.frameOrganizerLeft.getLastDividerLocation()			- GuiResource.frame_secure;
+		double widthPanelZoomPlot	= height - this.frameOrganizerRight.getLastDividerLocation()- GuiResource.frame_secure;
+		double heightPanelZoomPlot	= width - widthPanelDraw									- GuiResource.frame_secure;
+
+		this.panelDraw		.setSize((int)widthPanelDraw,		(int)heightPanelDraw);
+		this.panelZoomPlot	.setSize((int)widthPanelZoomPlot,	(int)heightPanelZoomPlot);
 	}
 }

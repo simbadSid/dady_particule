@@ -57,7 +57,7 @@ public class EventListener_resizer implements ComponentListener
 	}
 
 
-	@Override public void componentHidden(ComponentEvent e)	{System.out.println("Listener not implemented");}
-	@Override public void componentMoved(ComponentEvent e)	{System.out.println("Listener not implemented");}
-	@Override public void componentShown(ComponentEvent e)	{System.out.println("Listener not implemented");}
+	@Override public void componentHidden(ComponentEvent e)	{/*System.out.println("Listener not implemented");*/}
+	@Override public void componentMoved(ComponentEvent e)	{/*System.out.println("Listener not implemented");*/}
+	@Override public void componentShown(ComponentEvent e)	{/*System.out.println("Listener not implemented");*/}
 }

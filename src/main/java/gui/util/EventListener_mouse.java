@@ -41,19 +41,22 @@ public class EventListener_mouse implements  MouseListener, MouseMotionListener
 
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
+	public void mouseClicked(MouseEvent e)
+	{
 // TODO 
 	}
 
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e)
+	{
 // TODO 
 	}
 
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
+	public void mouseReleased(MouseEvent e)
+	{
 // TODO 
 	}
 }

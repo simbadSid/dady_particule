@@ -43,7 +43,13 @@ public class PanelDraw extends JPanel
 // -------------------------------------------------
 	public void save(FileOutputStream outputFile)
 	{
-// TODO		
+// TODO
+	}
+
+	@Override
+	public void setSize(int width, int height)
+	{
+System.out.format("width = %d, height = %d\n", width, height);
 	}
 
 
