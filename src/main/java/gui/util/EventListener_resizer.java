@@ -20,16 +20,18 @@ public class EventListener_resizer implements ComponentListener
 
 	private Object		targetObject;
 	private Method		targetMethod;
+	private boolean		printError;
 
 
 // -------------------------------------------------
 // Builder
 // -------------------------------------------------
-	public EventListener_resizer(Object targetObject, Method targetMethod)
+	public EventListener_resizer(Object targetObject, String methodName, boolean printError) throws NoSuchMethodException, SecurityException
 	{
 //TODO check that target method accepts exactly 2 parameters of type int
 		this.targetObject	= targetObject;
-		this.targetMethod	= targetMethod;
+		this.targetMethod	= targetObject.getClass().getMethod(methodName, int.class, int.class);
+		this.printError		= printError;
 	}
 
 
@@ -50,6 +52,7 @@ public class EventListener_resizer implements ComponentListener
 		}
 		catch (Exception e)
 		{
+			if (!printError) return;
 			errorDetected = true;
 			e.printStackTrace();
 			ExceptionPrinter.printError("Resizer: method execution error", true);

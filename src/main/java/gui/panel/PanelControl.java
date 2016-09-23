@@ -1,25 +1,20 @@
 package main.java.gui.panel;
 
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.GridLayout;
-import java.lang.reflect.Method;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
-
 import main.java.app.App;
 import main.java.gui.Gui;
 import main.java.gui.GuiResource;
 import main.java.gui.util.EventListener_button;
+import main.java.gui.util.EventListener_scrollBarSizeBarListenerAdjustment;
+import main.java.util.AngleConverter;
 
 
 
@@ -35,6 +30,8 @@ public class PanelControl extends JPanel
 // -------------------------------------------------
 	private App		app;
 	private Gui		gui;
+	private	JButton buttonStartPause;
+	private JButton	buttonTetaValue;
 
 
 // -------------------------------------------------
@@ -42,10 +39,9 @@ public class PanelControl extends JPanel
 // -------------------------------------------------
 	public PanelControl(App app, Gui gui) throws NoSuchMethodException, SecurityException
 	{
-		Method targetMethod;
-		JPanel panelTop		= new JPanel();
-		JPanel panelMiddle	= new JPanel();
-		JPanel panelBottom	= new JPanel();
+		JPanel	panelTop	= new JPanel();
+		JPanel	panelMiddle	= new JPanel();
+		JPanel	panelBottom	= new JPanel();
 
 		this.app = app;
 		this.gui = gui;
@@ -53,29 +49,43 @@ public class PanelControl extends JPanel
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.setBorder(new EmptyBorder(GuiResource.panelControl_marginTop, GuiResource.panelControl_marginLeft, GuiResource.panelControl_marginBottom, GuiResource.panelControl_marginRight));
 
-		JLabel labelBetaMin	= new JLabel(String.format(GuiResource.panelControl_label_BetaMin, App.betaMin));
-		JLabel labelBetaMax	= new JLabel(String.format(GuiResource.panelControl_label_BetaMax, App.betaMax));
+		JLabel labelTetaMin	= new JLabel(String.format(GuiResource.panelControl_label_TetaMin, AngleConverter.gradiantToDegree(App.tetaMin)));
+		JLabel labelTetaMax	= new JLabel(String.format(GuiResource.panelControl_label_TetaMax, AngleConverter.gradiantToDegree(App.tetaMax)));
 
-		JScrollBar scrollBarBetaValue = new JScrollBar(JScrollBar.HORIZONTAL);
-		scrollBarBetaValue.setBorder(new EmptyBorder(GuiResource.panelControl_marginLabelTop, GuiResource.panelControl_marginLabelLeft, GuiResource.panelControl_marginLabelBottom, GuiResource.panelControl_marginLabelRight));
-//TODO		scrollBarBetaValue.addAdjustmentListener();
+		JScrollBar scrollBarTetaValue = new JScrollBar(JScrollBar.HORIZONTAL);
+		double tetaValue = app.getTeta() / (App.tetaMax - App.tetaMin) * scrollBarTetaValue.getMaximum();
+		scrollBarTetaValue.setBorder(new EmptyBorder(GuiResource.panelControl_marginLabelTop, GuiResource.panelControl_marginLabelLeft, GuiResource.panelControl_marginLabelBottom, GuiResource.panelControl_marginLabelRight));
+		scrollBarTetaValue.setUnitIncrement(1);
+		scrollBarTetaValue.setValue((int)tetaValue);
+		scrollBarTetaValue.addAdjustmentListener(new EventListener_scrollBarSizeBarListenerAdjustment(gui, "changeAngle"));
 
-		JButton buttonBetaValue = new JButton(GuiResource.panelControl_buttonLabel_SetBetaValue);
-//TODO		buttonBetaValue.addActionListener();
+//TODO		scrollBarTetaValue.addAdjustmentListener();
+// Set the position of the scroll bar
 
 		panelTop.setBorder(new TitledBorder(BorderFactory.createLineBorder(GuiResource.panelZoom_colorBorder), GuiResource.panelControl_mainLabel));
 		panelTop.setLayout(new BoxLayout(panelTop, BoxLayout.LINE_AXIS));
 		panelTop.setBorder(new EmptyBorder(GuiResource.panelControl_marginLabelTop, GuiResource.panelControl_marginLabelLeft, GuiResource.panelControl_marginLabelBottom, GuiResource.panelControl_marginLabelRight));
-		panelTop.add(labelBetaMin,		Component.LEFT_ALIGNMENT);
-		panelTop.add(scrollBarBetaValue,Component.CENTER_ALIGNMENT);
-		panelTop.add(labelBetaMax,		Component.RIGHT_ALIGNMENT);
+		panelTop.add(labelTetaMin,		Component.LEFT_ALIGNMENT);
+		panelTop.add(scrollBarTetaValue,Component.CENTER_ALIGNMENT);
+		panelTop.add(labelTetaMax,		Component.RIGHT_ALIGNMENT);
 
-		panelMiddle.add(buttonBetaValue);
-		
-		
+		this.buttonTetaValue = new JButton(String.format(GuiResource.panelControl_buttonLabel_SetTetaValue, AngleConverter.gradiantToDegree(app.getTeta())));
+		this.buttonTetaValue.addActionListener(new EventListener_button(gui, "changeAngle"));
+		panelMiddle.add(this.buttonTetaValue);
+
 		panelBottom.setBorder(new EmptyBorder(GuiResource.panelControl_marginLabelTop, GuiResource.panelControl_marginLabelLeft, GuiResource.panelControl_marginLabelBottom, GuiResource.panelControl_marginLabelRight));
-		JButton buttonStartPause = new JButton(GuiResource.panelControl_buttonLabel_StartPause);
-//TODO		buttonStartPause.addActionListener();
+		this.buttonStartPause = new JButton();
+		this.buttonStartPause.addActionListener(new EventListener_button(gui, "startPause"));
+		if (app.isRunning())
+		{
+			this.buttonStartPause.setText(GuiResource.panelControl_buttonLabel_Pause);
+			this.buttonStartPause.setBackground(GuiResource.panelControl_colorButtonPause);
+		}
+		else
+		{
+			this.buttonStartPause.setText(GuiResource.panelControl_buttonLabel_Start);
+			this.buttonStartPause.setBackground(GuiResource.panelControl_colorButtonStart);
+		}
 
 		JButton buttonReinit = new JButton(GuiResource.panelControl_buttonLabel_Reinit);
 //TODO		buttonReinit.addActionListener();
@@ -87,8 +97,7 @@ public class PanelControl extends JPanel
 //TODO		buttonReinitBound.addActionListener();
 
 		JButton buttonExit = new JButton(GuiResource.panelControl_buttonLabel_Exit);
-		targetMethod = this.getClass().getDeclaredMethod("listenerExit");
-		buttonExit.addActionListener(new EventListener_button(this, targetMethod, null));
+		buttonExit.addActionListener(new EventListener_button(gui, "exit"));
 
 		panelBottom.add(buttonStartPause);
 		panelBottom.add(buttonReinit);
@@ -98,7 +107,7 @@ public class PanelControl extends JPanel
 
 		this.add(panelTop);
 		this.add(panelMiddle,	Component.CENTER_ALIGNMENT);
-//		this.add(scrollBarBetaValue, JComponent.TOP_ALIGNMENT);
+//		this.add(scrollBarTetaValue, JComponent.TOP_ALIGNMENT);
 //		this.add(panelMiddle);
 		this.add(panelBottom);
 	}
@@ -107,30 +116,23 @@ public class PanelControl extends JPanel
 // -------------------------------------------------
 // Public methods
 // -------------------------------------------------
-	public void listenerExit()
+	public void pause()
 	{
-		String		message		= GuiResource.frameExit_message;
-		Object[]	options		= {GuiResource.frameExit_buttonLabel_Save, GuiResource.frameExit_buttonLabel_Discrad, GuiResource.frameExit_buttonLabel_Cancel};
-		int			userChoice	= JOptionPane.showOptionDialog(null,
-									message,
-									GuiResource.frameExit_title,
-									JOptionPane.YES_NO_OPTION,
-									JOptionPane.QUESTION_MESSAGE,
-									null ,     //do not use a custom Icon
-									options,  //the titles of buttons
-									options[0]); //default button title
-		switch (userChoice)
-		{
-			case 0:
-				boolean test = false;
-				try					{SaveInterface.save(this.app, this.gui);}
-				catch(Exception e)	{e.printStackTrace();}
-				if (test)	break;
-				else		return;
-			case 1: break;
-			case 2: return;
-		}
-		System.exit(0);
+		this.buttonStartPause.setText(GuiResource.panelControl_buttonLabel_Start);
+		this.buttonStartPause.setBackground(GuiResource.panelControl_colorButtonStart);
+	}
+
+
+	public void start()
+	{
+		this.buttonStartPause.setText(GuiResource.panelControl_buttonLabel_Pause);
+		this.buttonStartPause.setBackground(GuiResource.panelControl_colorButtonPause);
+	}
+	
+
+	public void setTeta(double tetaGradiant)
+	{
+		this.buttonTetaValue.setText(String.format(GuiResource.panelControl_buttonLabel_SetTetaValue, tetaGradiant));
 	}
 
 

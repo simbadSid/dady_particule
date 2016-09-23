@@ -4,6 +4,7 @@ import javax.swing.SwingUtilities;
 
 import main.java.app.App;
 import main.java.gui.Gui;
+import main.java.gui.GuiResource;
 import main.java.gui.util.ExceptionPrinter;
 
 
@@ -18,7 +19,7 @@ public class Main implements Runnable
 // -------------------------------------------------
 // Attributes
 // -------------------------------------------------
-	public static final String	welcomeMessage					= "Welcome to the \"Je c pas trop quoi\" software";
+	public static final String	welcomeMessage					= "Welcome to the \"" + GuiResource.frame_title + "\" software";
 
 
 // -------------------------------------------------

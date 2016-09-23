@@ -9,7 +9,7 @@ public class GuiResource
 // -------------------------------------------------
 // Graphical parameters
 // -------------------------------------------------
-	public static final String		frame_title									= "Particule tracker";
+	public static final String		frame_title									= "Particle tracker";
 																										// Dimensions
 	public static final int			frame_width_initial							= 1200;
 	public static final int			frame_height_initial						= 900;
@@ -21,17 +21,24 @@ public class GuiResource
 	public static final int			frame_secure								= 6;
 	public static final boolean		frame_organizerEnabled						= false;
 	public static final int			frame_organizerSize							= 5;
-																										// TODO to move: Color of sub panels
-	public static final Color		panelDraw_colorBG							= Color.black;
-	public static final Color		panelZoomPlot_colorBG						= Color.red;
+	public static final boolean		frame_panelDrawZoom_initialShow				= false;
+	public static final boolean		frame_panelZoom_initialSelected				= true;
+	public static final double		frame_panelZoom_initialFactor				= 2.0;
+	public static final boolean		frame_panelZoom_initialCenterSetClear		= true;
+																										// Panel draw
+	public static final Color		panelDraw_colorBG_show						= Color.black;
+	public static final Color		panelDraw_colorBG_hide						= Color.red;
 
 																										// Panel control
 	public static final Color		panelControl_colorBG						= Color.green;			//		Colors
+	public static final Color		panelControl_colorButtonStart				= Color.GREEN;
+	public static final Color		panelControl_colorButtonPause				= Color.RED;
 	public static final String		panelControl_mainLabel						= "Initial value";		//		Label
-	public static final String		panelControl_label_BetaMin					= "Beta min: %f";
-	public static final String		panelControl_label_BetaMax					= "Beta max: %f";
-	public static final String		panelControl_buttonLabel_SetBetaValue		= "Beta ...";
-	public static final String		panelControl_buttonLabel_StartPause			= "Start / Pause";
+	public static final String		panelControl_label_TetaMin					= "Teta min: %f";
+	public static final String		panelControl_label_TetaMax					= "Teta max: %f";
+	public static final String		panelControl_buttonLabel_SetTetaValue		= "Teta: %f";
+	public static final String		panelControl_buttonLabel_Start				= "Start";
+	public static final String		panelControl_buttonLabel_Pause				= "Pause";
 	public static final String		panelControl_buttonLabel_Reinit				= "Reinit";
 	public static final String		panelControl_buttonLabel_Clear				= "Clear";
 	public static final String		panelControl_buttonLabel_ReinitBounds		= "Reinit bounds";
@@ -52,6 +59,7 @@ public class GuiResource
 	public static final String		panelZoom_radiobuttonLabel_ZoomIn			= "Zoom in";
 	public static final String		panelZoom_radiobuttonLabel_ZoomOut			= "Zoom out";
 	public static final String		panelZoom_buttonLabel_zoomFactor			= "Zoom factor: ";
+	public static final String		panelZoom_Label_showZoomPanel				= "Show zoom panel";
 	public static final String		panelZoom_buttonFontName_zoomFactor			= "Arial";				//		Font
 	public static final int			panelZoom_buttonFontType_zoomFactor			= Font.TRUETYPE_FONT;
 	public static final int			panelZoom_buttonFontSize_zoomFactor			= 18;
@@ -67,8 +75,8 @@ public class GuiResource
 																										// Panel CenterSet
 	public static final Color		panelCenterSet_colorBG						= Color.blue;			//		Color
 	public static final String		panelCenterSet_mainLabel					= "Initial position";	//		Label
-	public static final String		panelCenterSet_Label_positionX				= "Mouse position X: ";
-	public static final String		panelCenterSet_Label_positionY				= "Mouse position Y: ";
+	public static final String		panelCenterSet_Label_positionX				= "Mouse X: ";
+	public static final String		panelCenterSet_Label_positionZ				= "Mouse Z: ";
 	public static final String		panelCenterSet_Label_clear					= "Clear at re-center";
 	public static final String		panelCenterSet_textPanelFontName_MousePosition= "Arial";			//		Font
 	public static final int			panelCenterSet_textPanelFontType_MousePosition= Font.TRUETYPE_FONT;
@@ -91,8 +99,16 @@ public class GuiResource
 	public static final String		frameExit_buttonLabel_Discrad				= "Discard";
 	public static final String		frameExit_buttonLabel_Cancel				= "Cancel";
 
+																										// Frame Teta
+	public static final String		frameTeta_title								= "Teta";
+	public static final String		frameTeta_message							= "Teta value in degrees (teta in [%f, %f])";
+	public static final String		frameTeta_messageError						= "Teta angle must be a real belonging to [%f, %f])";
+
 																										// Frame Save
 	public static final String		frameSave_title								= "Save results";
+
+																										// Frame zoom error
+	public static final String		frameZoomError								= "Zoom index exceeded";
 
 
 // -------------------------------------------------
