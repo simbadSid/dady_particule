@@ -11,11 +11,12 @@ public class DoubleFormated
 // -------------------------------------------------
 // Public methods
 // -------------------------------------------------
-	public static String format(double value, int nbrChar, boolean forceScientistNotation)
+	public static String format(double value, int maxNbrChar, int precision)
 	{
-		String res = Double.toString(value);
+		String format	= "%1." + precision + "f";
+		String res = String.format(format, value);
 
-//TODO scientific notation		if ((res.length() > nbrChar) || (forceScientistNotation))
+//TODO scientific notation		if (res.length() > maxNbrChar)
 //		{
 			
 //		}

@@ -1,6 +1,8 @@
 package main.java.gui.panel;
 
 import java.awt.Component;
+import java.awt.GridLayout;
+
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -15,6 +17,7 @@ import main.java.gui.GuiResource;
 import main.java.gui.util.EventListener_button;
 import main.java.gui.util.EventListener_scrollBarSizeBarListenerAdjustment;
 import main.java.util.AngleConverter;
+import main.java.util.DoubleFormated;
 
 
 
@@ -39,18 +42,22 @@ public class PanelControl extends JPanel
 // -------------------------------------------------
 	public PanelControl(App app, Gui gui) throws NoSuchMethodException, SecurityException
 	{
-		JPanel	panelTop	= new JPanel();
-		JPanel	panelMiddle	= new JPanel();
-		JPanel	panelBottom	= new JPanel();
+		JPanel	panel			= new JPanel();
+		JPanel	panelTop		= new JPanel();
+		JPanel	panelMiddle		= new JPanel();
+		JPanel	panelBottom		= new JPanel();
+		String	tetaMinDegree	= DoubleFormated.format(AngleConverter.gradiantToDegree(App.tetaMin), GuiResource.panelControl_tetaCharMaxNbrChar, GuiResource.panelControl_tetaCharPrecision);
+		String	tetaMaxDegree	= DoubleFormated.format(AngleConverter.gradiantToDegree(App.tetaMax), GuiResource.panelControl_tetaCharMaxNbrChar, GuiResource.panelControl_tetaCharPrecision);
 
 		this.app = app;
 		this.gui = gui;
 		this.setBackground(GuiResource.panelControl_colorBG);
-		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.setBorder(new EmptyBorder(GuiResource.panelControl_marginTop, GuiResource.panelControl_marginLeft, GuiResource.panelControl_marginBottom, GuiResource.panelControl_marginRight));
-
-		JLabel labelTetaMin	= new JLabel(String.format(GuiResource.panelControl_label_TetaMin, AngleConverter.gradiantToDegree(App.tetaMin)));
-		JLabel labelTetaMax	= new JLabel(String.format(GuiResource.panelControl_label_TetaMax, AngleConverter.gradiantToDegree(App.tetaMax)));
+		this.setLayout(new GridLayout(1, 1));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+		panel.setBorder(new TitledBorder(BorderFactory.createLineBorder(GuiResource.panelControl_colorBorder), GuiResource.panelControl_mainLabel));
+		JLabel labelTetaMin	= new JLabel(String.format(GuiResource.panelControl_label_TetaMin, tetaMinDegree));
+		JLabel labelTetaMax	= new JLabel(String.format(GuiResource.panelControl_label_TetaMax, tetaMaxDegree));
 
 		JScrollBar scrollBarTetaValue = new JScrollBar(JScrollBar.HORIZONTAL);
 		double tetaValue = app.getTeta() / (App.tetaMax - App.tetaMin) * scrollBarTetaValue.getMaximum();
@@ -62,7 +69,6 @@ public class PanelControl extends JPanel
 //TODO		scrollBarTetaValue.addAdjustmentListener();
 // Set the position of the scroll bar
 
-		panelTop.setBorder(new TitledBorder(BorderFactory.createLineBorder(GuiResource.panelZoom_colorBorder), GuiResource.panelControl_mainLabel));
 		panelTop.setLayout(new BoxLayout(panelTop, BoxLayout.LINE_AXIS));
 		panelTop.setBorder(new EmptyBorder(GuiResource.panelControl_marginLabelTop, GuiResource.panelControl_marginLabelLeft, GuiResource.panelControl_marginLabelBottom, GuiResource.panelControl_marginLabelRight));
 		panelTop.add(labelTetaMin,		Component.LEFT_ALIGNMENT);
@@ -105,11 +111,12 @@ public class PanelControl extends JPanel
 		panelBottom.add(buttonReinitBound);
 		panelBottom.add(buttonExit);
 
-		this.add(panelTop);
-		this.add(panelMiddle,	Component.CENTER_ALIGNMENT);
+		panel.add(panelTop);
+		panel.add(panelMiddle,	Component.CENTER_ALIGNMENT);
 //		this.add(scrollBarTetaValue, JComponent.TOP_ALIGNMENT);
 //		this.add(panelMiddle);
-		this.add(panelBottom);
+		panel.add(panelBottom);
+		this.add(panel);
 	}
 
 

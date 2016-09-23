@@ -121,8 +121,8 @@ private Color			colorDraw = Color.YELLOW;
 		// Used to initialize the graphical processor
 		if (this.bufferDraw == null)
 			this.clearAll();
-
-		this.spaceConverter.setPixelDimension(0, width, 0, height);
+		if (this.isPanelShown())
+			this.spaceConverter.setPixelDimension(0, width, 0, height);
 
 //TODO resize the picture
 this.clearAll();
@@ -132,5 +132,8 @@ this.clearAll();
 // -------------------------------------------------
 // Private methods
 // -------------------------------------------------
-
+	private boolean isPanelShown()
+	{
+		return this.colorBG.equals(GuiResource.panelDraw_colorBG_show);
+	}
 }

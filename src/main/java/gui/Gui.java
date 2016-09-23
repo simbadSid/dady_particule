@@ -29,15 +29,15 @@ public class Gui
 	private double			zoom_centerRealZ;
 	private int				zoom_index;
 	private double			zoom_size;
-	private boolean			zoomInSelected				= GuiResource.frame_panelZoom_initialSelected;
-	private double			zoomFactor					= GuiResource.frame_panelZoom_initialFactor;
-	private boolean			centerSetClear				= GuiResource.frame_panelZoom_initialCenterSetClear;
+	private boolean			zoomInSelected	= GuiResource.frame_panelInfo_zoomInitialCenterSetClear;
+	private double			zoomFactor		= GuiResource.frame_panelInfo_zoomInitialFactor;
+	private boolean			centerSetClear	= GuiResource.frame_panelInfo_zoomInitialCenterSetClear;
 
 	private JFrame			frame;											// Main frame
 	private PanelDraw		panelDrawMain;									// Top left panel
 	private PanelControl	panelControl;									// Bottom left panel
-	private PanelZoom		panelZoom;										// Top right panel
-	private PanelCenterSet	panelCenterSet;									// Middle right panel
+	private PanelInfo		panelInfo;										// Top right panel
+	private PanelTODO		panelTodo;										// Middle right panel
 	private PanelDraw		panelDrawZoom;									// Bottom right panel
 	private JSplitPane 		frameOrganizer_Left_Right;
 	private JSplitPane 		frameOrganizerLeft;
@@ -62,14 +62,14 @@ public class Gui
 		this.frame			= new JFrame(GuiResource.frame_title);
 		this.panelDrawMain	= new PanelDraw		(this);
 		this.panelControl	= new PanelControl	(app, this);
-		this.panelZoom		= new PanelZoom		(this);
-		this.panelCenterSet	= new PanelCenterSet(this);
+		this.panelInfo		= new PanelInfo		(this);
+		this.panelTodo		= new PanelTODO		();
 		this.panelDrawZoom	= new PanelDraw		(this);
 		this.panelDrawMain.setPanelShown(true);
 		this.resetZoom();
 
 		// Organize sub panels within the main frame
-		this.frameOrganizerRightTop		= new JSplitPane(JSplitPane.VERTICAL_SPLIT, 	this.panelZoom,				this.panelCenterSet);
+		this.frameOrganizerRightTop		= new JSplitPane(JSplitPane.VERTICAL_SPLIT, 	this.panelInfo,				this.panelTodo);
 		this.frameOrganizerRight		= new JSplitPane(JSplitPane.VERTICAL_SPLIT, 	this.frameOrganizerRightTop,this.panelDrawZoom);
 		this.frameOrganizerLeft			= new JSplitPane(JSplitPane.VERTICAL_SPLIT, 	this.panelDrawMain,			this.panelControl);
 		this.frameOrganizer_Left_Right	= new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,	this.frameOrganizerLeft,	this.frameOrganizerRight);
@@ -124,7 +124,7 @@ public class Gui
 		this.zoom_isPanelShown = !this.zoom_isPanelShown;;
 
 		this.panelDrawZoom	.setPanelShown(this.zoom_isPanelShown);
-		this.panelZoom		.setPanelZoomShown(this.zoom_isPanelShown);
+		this.panelInfo		.setPanelZoomShown(this.zoom_isPanelShown);
 	}
 
 
@@ -213,8 +213,8 @@ public class Gui
 		this.zoom_index			= zoomInitial_index;
 		this.zoom_size			= Math.pow(this.zoomFactor, -zoomInitial_index);
 
-		this.panelDrawZoom	.setPanelShown(GuiResource.frame_panelDrawZoom_initialShow);
-		this.panelZoom		.setPanelZoomShown(GuiResource.frame_panelDrawZoom_initialShow);
+		this.panelDrawZoom	.setPanelShown		(GuiResource.frame_panelDrawZoom_initialShow);
+		this.panelInfo		.setPanelZoomShown	(GuiResource.frame_panelDrawZoom_initialShow);
 	}
 
 
@@ -252,6 +252,34 @@ public class Gui
 	}
 
 
+	public void setZoomFactor()
+	{
+		String title = "title";
+		String message = "message";
+		double factor;
+/* TODO
+		while (true)
+		{
+			String userChoice = (String) JOptionPane.showInputDialog(null, message, title, JOptionPane.QUESTION_MESSAGE, null, null, this.app.getZoomFactor());
+			try
+			{
+				factor = Double.parseDouble(userChoice);
+				boolean test = this.app.setZoomFactor(factor);
+				if (!test) throw new RuntimeException();
+				return;
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+				String.parse(); this.add(comp);
+				ExceptionPrinter.printError(message, false);
+			}
+		}
+*/
+
+	}
+
+
 // -------------------------------------------------
 // Private methods
 // -------------------------------------------------
@@ -270,13 +298,13 @@ public class Gui
 
 	public void setMousePosition(double xReal, double yReal)
 	{
-		this.panelCenterSet.setMousePosition(xReal, yReal);
+		this.panelInfo.setMousePosition(xReal, yReal);
 	}
 
 
 	public void setMouseExited()
 	{
-		this.panelCenterSet.setMouseExited();
+		this.panelInfo.setMouseExited();
 	}
 
 

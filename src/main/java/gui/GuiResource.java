@@ -22,21 +22,24 @@ public class GuiResource
 	public static final boolean		frame_organizerEnabled						= false;
 	public static final int			frame_organizerSize							= 5;
 	public static final boolean		frame_panelDrawZoom_initialShow				= false;
-	public static final boolean		frame_panelZoom_initialSelected				= true;
-	public static final double		frame_panelZoom_initialFactor				= 2.0;
-	public static final boolean		frame_panelZoom_initialCenterSetClear		= true;
+	public static final boolean		frame_panelInfo_zoomInitialSelected			= true;
+	public static final double		frame_panelInfo_zoomInitialFactor			= 2.0;
+	public static final boolean		frame_panelInfo_zoomInitialCenterSetClear	= true;
 																										// Panel draw
 	public static final Color		panelDraw_colorBG_show						= Color.black;
 	public static final Color		panelDraw_colorBG_hide						= Color.red;
 
 																										// Panel control
 	public static final Color		panelControl_colorBG						= Color.green;			//		Colors
+	public static final Color		panelControl_colorBorder					= Color.black;
 	public static final Color		panelControl_colorButtonStart				= Color.GREEN;
 	public static final Color		panelControl_colorButtonPause				= Color.RED;
-	public static final String		panelControl_mainLabel						= "Initial value";		//		Label
-	public static final String		panelControl_label_TetaMin					= "Teta min: %f";
-	public static final String		panelControl_label_TetaMax					= "Teta max: %f";
-	public static final String		panelControl_buttonLabel_SetTetaValue		= "Teta: %f";
+	public static final String		panelControl_mainLabel						= "Run controller";		//		Label
+	public static final String		panelControl_label_TetaMin					= "Teta min: %s degrees";
+	public static final String		panelControl_label_TetaMax					= "Teta max: %s degrees";
+	public static final int			panelControl_tetaCharPrecision				= 2;
+	public static final int			panelControl_tetaCharMaxNbrChar				= 5;
+	public static final String		panelControl_buttonLabel_SetTetaValue		= "Teta: %." + panelControl_tetaCharPrecision + "f degrees";
 	public static final String		panelControl_buttonLabel_Start				= "Start";
 	public static final String		panelControl_buttonLabel_Pause				= "Pause";
 	public static final String		panelControl_buttonLabel_Reinit				= "Reinit";
@@ -52,45 +55,33 @@ public class GuiResource
 	public static final int			panelControl_marginLabelLeft				= 5;
 	public static final int			panelControl_marginLabelRight				= 5;
 
-																										// Panel Zoom
-	public static final Color		panelZoom_colorBG							= Color.blue;			//		Color
-	public static final Color		panelZoom_colorBorder						= Color.black;
-	public static final String		panelZoom_mainLabel							= "Zoom panel";			//		Label
-	public static final String		panelZoom_radiobuttonLabel_ZoomIn			= "Zoom in";
-	public static final String		panelZoom_radiobuttonLabel_ZoomOut			= "Zoom out";
-	public static final String		panelZoom_buttonLabel_zoomFactor			= "Zoom factor: ";
-	public static final String		panelZoom_Label_showZoomPanel				= "Show zoom panel";
-	public static final String		panelZoom_buttonFontName_zoomFactor			= "Arial";				//		Font
-	public static final int			panelZoom_buttonFontType_zoomFactor			= Font.TRUETYPE_FONT;
-	public static final int			panelZoom_buttonFontSize_zoomFactor			= 18;
-	public static final int			panelZoom_marginTop							= 15;					//		Border margin
-	public static final int			panelZoom_marginBottom						= 15;
-	public static final int			panelZoom_marginLeft						= 15;
-	public static final int			panelZoom_marginRight						= 15;
-	public static final int			panelZoom_marginLabelTop					= 5;
-	public static final int			panelZoom_marginLabelBottom					= 5;
-	public static final int			panelZoom_marginLabelLeft					= 5;
-	public static final int			panelZoom_marginLabelRight					= 5;
-
-																										// Panel CenterSet
-	public static final Color		panelCenterSet_colorBG						= Color.blue;			//		Color
-	public static final String		panelCenterSet_mainLabel					= "Initial position";	//		Label
-	public static final String		panelCenterSet_Label_positionX				= "Mouse X: ";
-	public static final String		panelCenterSet_Label_positionZ				= "Mouse Z: ";
-	public static final String		panelCenterSet_Label_clear					= "Clear at re-center";
+																										// Panel Info
+	public static final Color		panelInfo_colorBG							= Color.blue;			//		Color
+	public static final Color		panelInfo_colorBorder						= Color.black;
+	public static final String		panelInfo_mainLabel_zoom					= "Zoom panel";			//		Label (zoom side)
+	public static final String		panelInfo_radiobuttonLabel_ZoomIn			= "Zoom in";
+	public static final String		panelInfo_radiobuttonLabel_ZoomOut			= "Zoom out";
+	public static final String		panelInfo_buttonLabel_zoomFactor			= "Zoom factor: ";
+	public static final String		panelInfo_Label_showZoomPanel				= "Show zoom";
+	public static final String		panelInfo_mainLabel_initialPosition			= "Initial position";	//		Label (initial position side)
+	public static final String		panelInfo_Label_positionX					= "Mouse X: ";
+	public static final String		panelInfo_Label_positionZ					= "Mouse Z: ";
+	public static final String		panelInfo_Label_clear						= "Clear at re-center";
+	public static final int			panelInfo_marginTop							= 10;					//		Border margin
+	public static final int			panelInfo_marginBottom						= 10;
+	public static final int			panelInfo_marginLeft						= 10;
+	public static final int			panelInfo_marginRight						= 10;
+	public static final int			panelInfo_marginBetweenPanels_horizontal	= 5;
+	public static final int			panelInfo_marginBetweenPanels_vertical		= 5;
+	public static final int			panelInfo_marginLabelTop					= 5;
+	public static final int			panelInfo_marginLabelBottom					= 5;
+	public static final int			panelInfo_marginLabelLeft					= 5;
+	public static final int			panelInfo_marginLabelRight					= 5;
 	public static final String		panelCenterSet_textPanelFontName_MousePosition= "Arial";			//		Font
 	public static final int			panelCenterSet_textPanelFontType_MousePosition= Font.TRUETYPE_FONT;
 	public static final int			panelCenterSet_textPanelFontSize_MousePosition= 18;
-	public static final int			panelCenterSet_marginTop					= 15;					//		Border margin
-	public static final int			panelCenterSet_marginBottom					= 15;
-	public static final int			panelCenterSet_marginLeft					= 15;
-	public static final int			panelCenterSet_marginRight					= 15;
-	public static final int			panelCenterSet_marginLabelTop				= 5;
-	public static final int			panelCenterSet_marginLabelBottom			= 5;
-	public static final int			panelCenterSet_marginLabelLeft				= 5;
-	public static final int			panelCenterSet_marginLabelRight				= 5;
-	public static final int			panelCenterSet_mousePositionCharNbr			= 6;
-	public static final boolean		panelCenterSet_mousePosition_forceScientist	= false;
+	public static final int			panelInfo_mousePositionMaxCharNbr			= 5;
+	public static final int			panelInfo_mousePositionPrecision			= 3;
 
 																										// Frame Exit
 	public static final String		frameExit_title								= "Exit";
