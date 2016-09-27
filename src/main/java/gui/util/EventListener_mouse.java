@@ -18,6 +18,7 @@ public class EventListener_mouse implements  MouseListener, MouseMotionListener
 // -------------------------------------------------
 	private Gui				gui;
 	private SpaceConverter	spaceConverter;
+	private PointDouble		converterBuffer = new PointDouble(-1, -1);
 
 
 // -------------------------------------------------
@@ -43,13 +44,18 @@ public class EventListener_mouse implements  MouseListener, MouseMotionListener
 	@Override
 	public void mouseClicked(MouseEvent e)
 	{
+		if (!this.spaceConverter.isInitialized())
+			return;
+
+		this.spaceConverter.convertPixelToReal(e.getX(), e.getY(), converterBuffer);
+
 		if (SwingUtilities.isLeftMouseButton(e))
 		{
-			
+			this.gui.changeInitialPoint(converterBuffer.x, converterBuffer.z);
 		}
 		else if (SwingUtilities.isRightMouseButton(e))
 		{
-			
+			this.gui.zoom(converterBuffer.x, converterBuffer.z);
 		}
 		else
 			System.out.println("Unhandeled mouse button");
@@ -61,16 +67,12 @@ public class EventListener_mouse implements  MouseListener, MouseMotionListener
 // -------------------------------------------------
 	private void printPosition(MouseEvent e)
 	{
-		PointDouble result = new PointDouble(-1, -1);
-
-		try
-		{
-			this.spaceConverter.convertPixelToReal(e.getX(), e.getY(), result);
-			this.gui.setMousePosition(result.x, result.z);
-		}
-		catch(Exception exc)
-		{
+		if (!this.spaceConverter.isInitialized())
 			this.gui.setMouseExited();
+		else
+		{
+			this.spaceConverter.convertPixelToReal(e.getX(), e.getY(), converterBuffer);
+			this.gui.setMousePosition(converterBuffer.x, converterBuffer.z);
 		}
 	}
 }

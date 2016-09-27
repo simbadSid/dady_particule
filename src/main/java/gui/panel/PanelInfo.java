@@ -37,7 +37,7 @@ public class PanelInfo extends JPanel
 // Attributes
 // -------------------------------------------------
 	private JTextPane		textPanelX;
-	private JTextPane		textPanelY;
+	private JTextPane		textPanelZ;
 	private JCheckBox		checkBoxClear;
 
 	private ButtonGroup		groupButtonZoom;
@@ -63,41 +63,41 @@ public class PanelInfo extends JPanel
 		// -------------------------------------------------
 		JPanel	panelInitialPosition	= new JPanel();
 		JPanel	panelX					= new JPanel();
-		JPanel	panelY					= new JPanel();
+		JPanel	panelZ					= new JPanel();
 		JPanel	panelClear				= new JPanel();
 		JLabel	labelX					= new JLabel(GuiResource.panelInfo_Label_positionX);
-		JLabel	labelY					= new JLabel(GuiResource.panelInfo_Label_positionZ);
+		JLabel	labelZ					= new JLabel(GuiResource.panelInfo_Label_positionZ);
 		JLabel	labelClear				= new JLabel(GuiResource.panelInfo_Label_clear);
 		this.textPanelX 				= new JTextPane();
-		this.textPanelY 				= new JTextPane();
+		this.textPanelZ 				= new JTextPane();
 		this.checkBoxClear				= new JCheckBox();
 
 		panelX		.setLayout(new BoxLayout(panelX,	BoxLayout.LINE_AXIS));	panelX		.add(labelX,	Component.LEFT_ALIGNMENT);	panelX		.add(this.textPanelX,	Component.RIGHT_ALIGNMENT);
-		panelY		.setLayout(new BoxLayout(panelY,	BoxLayout.LINE_AXIS));	panelY		.add(labelY,	Component.LEFT_ALIGNMENT);	panelY		.add(this.textPanelY,	Component.RIGHT_ALIGNMENT);
+		panelZ		.setLayout(new BoxLayout(panelZ,	BoxLayout.LINE_AXIS));	panelZ		.add(labelZ,	Component.LEFT_ALIGNMENT);	panelZ		.add(this.textPanelZ,	Component.RIGHT_ALIGNMENT);
 		panelClear	.setLayout(new BoxLayout(panelClear,BoxLayout.LINE_AXIS));	panelClear	.add(labelClear,Component.LEFT_ALIGNMENT);	panelClear	.add(this.checkBoxClear,Component.RIGHT_ALIGNMENT);
 
 		panelX		.setBorder(new EmptyBorder(GuiResource.panelInfo_marginLabelTop, GuiResource.panelInfo_marginLabelLeft, GuiResource.panelInfo_marginLabelBottom, GuiResource.panelInfo_marginLabelRight));
-		panelY		.setBorder(new EmptyBorder(GuiResource.panelInfo_marginLabelTop, GuiResource.panelInfo_marginLabelLeft, GuiResource.panelInfo_marginLabelBottom, GuiResource.panelInfo_marginLabelRight));
+		panelZ		.setBorder(new EmptyBorder(GuiResource.panelInfo_marginLabelTop, GuiResource.panelInfo_marginLabelLeft, GuiResource.panelInfo_marginLabelBottom, GuiResource.panelInfo_marginLabelRight));
 		panelClear	.setBorder(new EmptyBorder(GuiResource.panelInfo_marginLabelTop, GuiResource.panelInfo_marginLabelLeft, GuiResource.panelInfo_marginLabelBottom, GuiResource.panelInfo_marginLabelRight));
 
 		// Set font and style
 		Font textPaneMousePosition = new Font(GuiResource.panelCenterSet_textPanelFontName_MousePosition, GuiResource.panelCenterSet_textPanelFontType_MousePosition, GuiResource.panelCenterSet_textPanelFontSize_MousePosition);
-		this.textPanelX.setFont(textPaneMousePosition);		this.textPanelY.setFont(textPaneMousePosition);
-		this.textPanelX.setEditable(false);					this.textPanelY.setEditable(false);
+		this.textPanelX.setFont(textPaneMousePosition);		this.textPanelZ.setFont(textPaneMousePosition);
+		this.textPanelX.setEditable(false);					this.textPanelZ.setEditable(false);
 		StyledDocument docX = this.textPanelX.getStyledDocument();
-		StyledDocument docY = this.textPanelY.getStyledDocument();
+		StyledDocument docY = this.textPanelZ.getStyledDocument();
 		SimpleAttributeSet center = new SimpleAttributeSet();
 		StyleConstants.setAlignment(center, StyleConstants.ALIGN_JUSTIFIED);
 		docX.setParagraphAttributes(0, docX.getLength(), center, false);
 		docY.setParagraphAttributes(0, docY.getLength(), center, false);
 
 		this.checkBoxClear.setSelected(gui.isCenterSetClear());
-//TODO		this.checkBoxClear.addComponentListener();
+		this.checkBoxClear.addActionListener(new EventListener_button(gui, "setSetCenterSetClear"));
 
 		panelInitialPosition.setLayout(new BoxLayout(panelInitialPosition, BoxLayout.PAGE_AXIS));
 		panelInitialPosition.setBorder(new TitledBorder(BorderFactory.createLineBorder(GuiResource.panelInfo_colorBorder), GuiResource.panelInfo_mainLabel_initialPosition));
 		panelInitialPosition.add(panelX,		Component.LEFT_ALIGNMENT);
-		panelInitialPosition.add(panelY,		Component.LEFT_ALIGNMENT);
+		panelInitialPosition.add(panelZ,		Component.LEFT_ALIGNMENT);
 		panelInitialPosition.add(panelClear,	Component.CENTER_ALIGNMENT);
 		this.add(panelInitialPosition);
 		this.setMouseExited();
@@ -107,11 +107,11 @@ public class PanelInfo extends JPanel
 		// -------------------------------------------------
 		this.radioButtonZoomIn	= new JRadioButton(GuiResource.panelInfo_radiobuttonLabel_ZoomIn);
 		this.radioButtonZoomIn.setSelected(gui.isZoomInSelected());
-//TODO		this.radioButtonZoomIn.addActionListener();
+		this.radioButtonZoomIn.addActionListener(new EventListener_button(gui, "setZoomInSelected"));
 
 		this.radioButtonZoomOut	= new JRadioButton(GuiResource.panelInfo_radiobuttonLabel_ZoomOut);
 		this.radioButtonZoomOut.setSelected(!gui.isZoomInSelected());
-//TODO		this.radioButtonZoomOut.addActionListener();
+		this.radioButtonZoomOut.addActionListener(new EventListener_button(gui, "setZoomOutSelected"));
 
 		this.groupButtonZoom = new ButtonGroup();
 		this.groupButtonZoom.add(this.radioButtonZoomIn);
@@ -161,10 +161,10 @@ public class PanelInfo extends JPanel
 	}
 
 
-	public void setMousePosition(double x, double y)
+	public void setMousePosition(double xReal, double zReal)
 	{
-		String strX = DoubleFormated.format(x, GuiResource.panelInfo_mousePositionMaxCharNbr, GuiResource.panelInfo_mousePositionPrecision);
-		String strY = DoubleFormated.format(y, GuiResource.panelInfo_mousePositionMaxCharNbr, GuiResource.panelInfo_mousePositionPrecision);
+		String strX = DoubleFormated.format(xReal, GuiResource.panelInfo_mousePositionMaxCharNbr, GuiResource.panelInfo_mousePositionPrecision);
+		String strY = DoubleFormated.format(zReal, GuiResource.panelInfo_mousePositionMaxCharNbr, GuiResource.panelInfo_mousePositionPrecision);
 
 		if ((strX == null) || (strY == null))
 		{
@@ -173,7 +173,7 @@ public class PanelInfo extends JPanel
 		else
 		{
 			this.textPanelX.setText(strX);
-			this.textPanelY.setText(strY);
+			this.textPanelZ.setText(strY);
 		}
 	}
 
@@ -191,7 +191,7 @@ public class PanelInfo extends JPanel
 		}
 
 		this.textPanelX.setText(str);
-		this.textPanelY.setText(str);
+		this.textPanelZ.setText(str);
 	}
 
 

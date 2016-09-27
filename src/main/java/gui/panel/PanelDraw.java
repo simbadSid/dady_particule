@@ -113,6 +113,12 @@ private Color			colorDraw = Color.YELLOW;
 	}
 
 
+	public void setRealDimension(double xMin_real, double xMax_real, double zMin_real, double zMax_real)
+	{
+		this.spaceConverter.setRealDimension(xMin_real, xMax_real, zMin_real, zMax_real);
+	}
+
+
 	@Override
 	public void setSize(int width, int height)
 	{
