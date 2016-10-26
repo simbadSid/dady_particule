@@ -18,8 +18,10 @@ public class Gui
 // -------------------------------------------------
 // Attributes
 // -------------------------------------------------
-	public final static int		zoom_indexMax	= 20;
-	public final static int		zoom_indexMin	= 0;
+	public final static double	zoomInitial_centerRealX	= 0;
+	public final static double	zoomInitial_centerRealZ	= 0.5;
+	public final static int		zoom_indexMax			= 20;
+	public final static int		zoom_indexMin			= 0;
 
 	private App				app;
 	private boolean 		zoom_isPanelShown;
@@ -122,8 +124,12 @@ public class Gui
 	{
 		this.zoom_isPanelShown = !this.zoom_isPanelShown;;
 
+		boolean running = this.app.isRunning();
+
+		if (running)	this.app.pause();
 		this.panelDrawZoom	.setPanelShown(this.zoom_isPanelShown);
 		this.panelInfo		.setPanelZoomShown(this.zoom_isPanelShown);
+		if (running)	this.app.start();
 	}
 
 
@@ -248,26 +254,26 @@ public class Gui
 		this.zoom_index			= zoom_indexMin;
 		this.zoom_size			= Math.pow(this.zoomFactor, -zoom_indexMin) / 2;
 
+		this.panelDrawZoom	.zoom(zoomInitial_centerRealX, zoomInitial_centerRealZ, this.zoom_size);
 		this.panelDrawZoom	.setPanelShown		(GuiResource.frame_panelDrawZoom_initialShow);
 		this.panelInfo		.setPanelZoomShown	(GuiResource.frame_panelDrawZoom_initialShow);
 	}
 
 
-	public void zoom(double xReal, double zReal)
+	public void zoom(double xReal, double zReal, Boolean zoomInSelected)
 	{
-		if (!this.zoomFactorUpdate())
+		if (!this.zoomFactorUpdate(zoomInSelected))
 		{
 			ExceptionPrinter.printError(GuiResource.frameZoomError, false);
 			return;
 		}
 
-		double xMin_real = xReal - this.zoom_size;
-		double xMax_real = xReal + this.zoom_size;
-		double zMin_real = zReal - this.zoom_size;
-		double zMax_real = zReal + this.zoom_size;
+		boolean running = this.app.isRunning();
 
+		if (running)	this.app.pause();
 		this.panelDrawZoom.clearAll();
-		this.panelDrawZoom.setRealDimension(xMin_real, xMax_real, zMin_real, zMax_real);
+		this.panelDrawZoom.zoom(xReal, zReal, this.zoom_size);
+		if (running)	this.app.start();
 	}
 
 
@@ -299,6 +305,31 @@ public class Gui
 	}
 
 
+	public void clear()
+	{
+		boolean running = this.app.isRunning();
+
+		if (running)	this.app.pause();
+		this.panelDrawMain.clearAll();
+		if (this.isZoomInSelected())
+			this.panelDrawZoom.clearAll();
+		if (running)	this.app.start();
+	}
+
+
+	public void reinit()
+	{
+		boolean running = this.app.isRunning();
+
+		if (running)	this.app.pause();
+		this.app.reinit();
+		this.panelDrawMain.clearAll();
+		if (this.isZoomInSelected())
+			this.panelDrawZoom.clearAll();
+		if (running)	this.app.start();
+	}
+
+
 // -------------------------------------------------
 // Private methods
 // -------------------------------------------------
@@ -315,11 +346,13 @@ public class Gui
 	}
 
 
-	private boolean zoomFactorUpdate()
+	private boolean zoomFactorUpdate(Boolean zoomInSelected)
 	{
 		boolean test = true;
 
-		if (zoomInSelected)
+		boolean zoom = (zoomInSelected == null) ? (this.zoomInSelected) : (zoomInSelected);
+
+		if (zoom)
 		{
 			if (this.zoom_index >= zoom_indexMax)
 			{
@@ -333,7 +366,7 @@ public class Gui
 		}
 		else
 		{
-			if (this.zoom_index <= 1)
+			if (this.zoom_index <= zoom_indexMin)
 			{
 				test = false;
 			}

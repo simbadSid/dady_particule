@@ -2,7 +2,12 @@ package main.java.gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.lang.reflect.Field;
+
+
+
+
+
+
 
 public class GuiResource
 {
@@ -21,10 +26,15 @@ public class GuiResource
 	public static final int			frame_secure								= 6;
 	public static final boolean		frame_organizerEnabled						= false;
 	public static final int			frame_organizerSize							= 5;
+	public static final boolean		frame_panelDraw_printAxes					= true;
+	public static final boolean		frame_panelDraw_printParabolLimit			= true;
+	public static final Color		frame_panelDraw_colorAxes					= Color.GREEN;
+	public static final Color		frame_panelDraw_colorParabolaLimit			= Color.GREEN;
 	public static final boolean		frame_panelDrawZoom_initialShow				= false;
 	public static final boolean		frame_panelInfo_zoomInitialSelected			= true;
 	public static final double		frame_panelInfo_zoomInitialFactor			= 2.0;
 	public static final boolean		frame_panelInfo_zoomInitialCenterSetClear	= true;
+	public static final double		frame_drawStep								= 1./70.;
 																										// Panel draw
 	public static final Color		panelDraw_colorBG_show						= Color.black;
 	public static final Color		panelDraw_colorBG_hide						= Color.red;
@@ -100,21 +110,4 @@ public class GuiResource
 
 																										// Frame zoom error
 	public static final String		frameZoomError								= "Zoom index exceeded";
-
-
-// -------------------------------------------------
-// Private methods
-// -------------------------------------------------
-	private static int nbrAttributes(String attributeStartName)
-	{
-		int res = 0;
-
-		for (Field field: GuiResource.class.getDeclaredFields())
-		{
-			if (field.getName().startsWith(attributeStartName))
-				res ++;
-		}
-
-		return res;
-	}
 }

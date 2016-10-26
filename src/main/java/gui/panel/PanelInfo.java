@@ -74,7 +74,7 @@ public class PanelInfo extends JPanel
 
 		panelX		.setLayout(new BoxLayout(panelX,	BoxLayout.LINE_AXIS));	panelX		.add(labelX,	Component.LEFT_ALIGNMENT);	panelX		.add(this.textPanelX,	Component.RIGHT_ALIGNMENT);
 		panelZ		.setLayout(new BoxLayout(panelZ,	BoxLayout.LINE_AXIS));	panelZ		.add(labelZ,	Component.LEFT_ALIGNMENT);	panelZ		.add(this.textPanelZ,	Component.RIGHT_ALIGNMENT);
-		panelClear	.setLayout(new BoxLayout(panelClear,BoxLayout.LINE_AXIS));	panelClear	.add(labelClear,Component.LEFT_ALIGNMENT);	panelClear	.add(this.checkBoxClear,Component.RIGHT_ALIGNMENT);
+																				panelClear	.add(labelClear,Component.LEFT_ALIGNMENT);	panelClear	.add(this.checkBoxClear,Component.CENTER_ALIGNMENT);
 
 		panelX		.setBorder(new EmptyBorder(GuiResource.panelInfo_marginLabelTop, GuiResource.panelInfo_marginLabelLeft, GuiResource.panelInfo_marginLabelBottom, GuiResource.panelInfo_marginLabelRight));
 		panelZ		.setBorder(new EmptyBorder(GuiResource.panelInfo_marginLabelTop, GuiResource.panelInfo_marginLabelLeft, GuiResource.panelInfo_marginLabelBottom, GuiResource.panelInfo_marginLabelRight));
@@ -113,6 +113,10 @@ public class PanelInfo extends JPanel
 		this.radioButtonZoomOut.setSelected(!gui.isZoomInSelected());
 		this.radioButtonZoomOut.addActionListener(new EventListener_button(gui, "setZoomOutSelected"));
 
+		JPanel panelZoomRadio = new JPanel();
+		panelZoomRadio.setLayout(new BoxLayout(panelZoomRadio, BoxLayout.PAGE_AXIS));
+		panelZoomRadio.add(this.radioButtonZoomIn,	Component.LEFT_ALIGNMENT);
+		panelZoomRadio.add(this.radioButtonZoomOut,	Component.LEFT_ALIGNMENT);
 		this.groupButtonZoom = new ButtonGroup();
 		this.groupButtonZoom.add(this.radioButtonZoomIn);
 		this.groupButtonZoom.add(this.radioButtonZoomOut);
@@ -129,24 +133,21 @@ public class PanelInfo extends JPanel
 		JPanel panelZoom			= new JPanel();
 		JPanel panelZoomFactor		= new JPanel();	panelZoomFactor	.add(this.buttonZoomFactor);
 		JPanel panelShowZoomPanel	= new JPanel();
-		panelShowZoomPanel.setLayout(new BoxLayout(panelShowZoomPanel, BoxLayout.LINE_AXIS));
 		panelShowZoomPanel.add(labelShowZoomPanel,			Component.LEFT_ALIGNMENT);
 		panelShowZoomPanel.add(this.checkBoxShowZoomPanel,	Component.RIGHT_ALIGNMENT);
 
 
 		this.setBackground(GuiResource.panelInfo_colorBG);
 		panelZoom.setBorder(new TitledBorder(BorderFactory.createLineBorder(GuiResource.panelInfo_colorBorder), GuiResource.panelInfo_mainLabel_zoom));
-		panelZoom.setLayout(new BoxLayout(panelZoom, BoxLayout.PAGE_AXIS));
+		panelZoom.setLayout(new GridLayout(3, 1));
 
-		this					.setBorder(new EmptyBorder(GuiResource.panelInfo_marginTop,		GuiResource.panelInfo_marginLeft,		GuiResource.panelInfo_marginBottom,		GuiResource.panelInfo_marginRight));
-		this.radioButtonZoomIn	.setBorder(new EmptyBorder(GuiResource.panelInfo_marginLabelTop,GuiResource.panelInfo_marginLabelLeft,	GuiResource.panelInfo_marginLabelBottom,GuiResource.panelInfo_marginLabelRight));
-		this.radioButtonZoomOut	.setBorder(new EmptyBorder(GuiResource.panelInfo_marginLabelTop,GuiResource.panelInfo_marginLabelLeft,	GuiResource.panelInfo_marginLabelBottom,GuiResource.panelInfo_marginLabelRight));
-		panelShowZoomPanel		.setBorder(new EmptyBorder(GuiResource.panelInfo_marginLabelTop,GuiResource.panelInfo_marginLabelLeft,	GuiResource.panelInfo_marginLabelBottom,GuiResource.panelInfo_marginLabelRight));
-		panelZoomFactor			.setBorder(new EmptyBorder(GuiResource.panelInfo_marginLabelTop,GuiResource.panelInfo_marginLabelLeft,	GuiResource.panelInfo_marginLabelBottom,GuiResource.panelInfo_marginLabelRight));
+		this				.setBorder(new EmptyBorder(GuiResource.panelInfo_marginTop,		GuiResource.panelInfo_marginLeft,		GuiResource.panelInfo_marginBottom,		GuiResource.panelInfo_marginRight));
+		panelZoomRadio		.setBorder(new EmptyBorder(GuiResource.panelInfo_marginLabelTop,GuiResource.panelInfo_marginLabelLeft,	GuiResource.panelInfo_marginLabelBottom,GuiResource.panelInfo_marginLabelRight));
+		panelShowZoomPanel	.setBorder(new EmptyBorder(GuiResource.panelInfo_marginLabelTop,GuiResource.panelInfo_marginLabelLeft,	GuiResource.panelInfo_marginLabelBottom,GuiResource.panelInfo_marginLabelRight));
+		panelZoomFactor		.setBorder(new EmptyBorder(GuiResource.panelInfo_marginLabelTop,GuiResource.panelInfo_marginLabelLeft,	GuiResource.panelInfo_marginLabelBottom,GuiResource.panelInfo_marginLabelRight));
 		this.add(panelZoom);
 
-		panelZoom.add(radioButtonZoomIn,	Component.LEFT_ALIGNMENT);
-		panelZoom.add(radioButtonZoomOut,	Component.LEFT_ALIGNMENT);
+		panelZoom.add(panelZoomRadio,		Component.CENTER_ALIGNMENT);
 		panelZoom.add(panelShowZoomPanel,	Component.CENTER_ALIGNMENT);
 		panelZoom.add(panelZoomFactor,		Component.CENTER_ALIGNMENT);
 	}

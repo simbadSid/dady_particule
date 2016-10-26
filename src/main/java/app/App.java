@@ -44,15 +44,9 @@ public class App implements Runnable
 // -------------------------------------------------
 // Getter/Setter
 // -------------------------------------------------
-	public boolean	isRunning			()	{return this.isRunning;}
-	public double	getTeta				()	{return this.teta;}
-
-
-	public void setGui				(Gui gui)			{this.gui				= gui;}
-	public void init()
-	{
-// TODO
-	}
+	public boolean	isRunning			()			{return this.isRunning;}
+	public double	getTeta				()			{return this.teta;}
+	public void		setGui				(Gui gui)	{this.gui = gui;}
 
 
 // -------------------------------------------------
@@ -99,6 +93,12 @@ public class App implements Runnable
 		assert(this.isRunning);
 
 		this.isRunning = false;
+	}
+
+
+	public synchronized void reinit()
+	{
+		this.changeInitialPoint(initial_x, initial_z);
 	}
 
 

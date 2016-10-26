@@ -3,6 +3,9 @@ package main.java.gui.util;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+
 import javax.swing.SwingUtilities;
 import main.java.gui.Gui;
 import main.java.util.PointDouble;
@@ -11,7 +14,7 @@ import main.java.util.PointDouble;
 
 
 
-public class EventListener_mouse implements  MouseListener, MouseMotionListener
+public class EventListener_mouse implements  MouseListener, MouseMotionListener, MouseWheelListener
 {
 // -------------------------------------------------
 // Attributes
@@ -55,10 +58,25 @@ public class EventListener_mouse implements  MouseListener, MouseMotionListener
 		}
 		else if (SwingUtilities.isRightMouseButton(e))
 		{
-			this.gui.zoom(converterBuffer.x, converterBuffer.z);
+			this.gui.zoom(converterBuffer.x, converterBuffer.z, null);
 		}
 		else
 			System.out.println("Unhandeled mouse button");
+	}
+
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e)
+	{
+		if (!this.spaceConverter.isInitialized())
+			return;
+
+		this.spaceConverter.convertPixelToReal(e.getX(), e.getY(), converterBuffer);
+
+		if (e.getWheelRotation() < 0)
+			this.gui.zoom(converterBuffer.x, converterBuffer.z, true);
+		else
+			this.gui.zoom(converterBuffer.x, converterBuffer.z, false);
 	}
 
 

@@ -94,10 +94,10 @@ public class PanelControl extends JPanel
 		}
 
 		JButton buttonReinit = new JButton(GuiResource.panelControl_buttonLabel_Reinit);
-//TODO		buttonReinit.addActionListener();
+		buttonReinit.addActionListener(new EventListener_button(gui, "reinit"));
 
 		JButton buttonClear = new JButton(GuiResource.panelControl_buttonLabel_Clear);
-//TODO		buttonClear.addActionListener();
+		buttonClear.addActionListener(new EventListener_button(gui, "clear"));
 
 		JButton buttonReinitBound = new JButton(GuiResource.panelControl_buttonLabel_ReinitBounds);
 //TODO		buttonReinitBound.addActionListener();

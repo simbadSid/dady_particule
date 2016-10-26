@@ -29,11 +29,14 @@ public class PanelDraw extends JPanel
 	private BufferedImage 	bufferDraw;
 	private Graphics2D		drawable;
 	private Color			colorBG;
-	private PointDouble		converterBuffer = new PointDouble(-1, -1);
+	private PointDouble		bufferConverter		= new PointDouble(-1, -1);
+	private Color			colorAxes			= GuiResource.frame_panelDraw_colorAxes;
+	private Color			colorParabolLimit	= GuiResource.frame_panelDraw_colorParabolaLimit;
 
 // TODO
 private Color			colorDraw = Color.YELLOW;
-
+private boolean			printAxes			= GuiResource.frame_panelDraw_printAxes;
+private boolean			printParabolaLimit	= GuiResource.frame_panelDraw_printParabolLimit;
 
 
 // -------------------------------------------------
@@ -48,6 +51,7 @@ private Color			colorDraw = Color.YELLOW;
 
 		this.addMouseListener(mouseListener);
 		this.addMouseMotionListener(mouseListener);
+		this.addMouseWheelListener(mouseListener);
 		this.addComponentListener(listenerResizer);
 		this.clearAll();
 	}
@@ -98,24 +102,20 @@ private Color			colorDraw = Color.YELLOW;
 
 		this.drawable.setColor(this.colorBG);
 		this.drawable.fillRect(0, 0, this.getWidth(), this.getHeight());
+		if (this.isPanelShown())
+		{
+			if (this.printAxes)				this.plotAxes();
+			if (this.printParabolaLimit)	this.plotParabolaLimit();
+		}
+
 		this.drawable.setColor(this.colorDraw);
 		this.repaint();
 	}
 
 
-	public void plot(double xReal, double zReal)
+	public void zoom(double xReal, double zReal, double zoomSize)
 	{
-		this.spaceConverter.convertRealToPixel(xReal, zReal, this.converterBuffer);
-
-		this.drawable.drawLine((int)converterBuffer.x, (int)converterBuffer.z, (int)converterBuffer.x, (int)converterBuffer.z);
-// TODO obtimize
-		this.repaint();
-	}
-
-
-	public void setRealDimension(double xMin_real, double xMax_real, double zMin_real, double zMax_real)
-	{
-		this.spaceConverter.setRealDimension(xMin_real, xMax_real, zMin_real, zMax_real);
+		this.spaceConverter.zoom(xReal, zReal, zoomSize);
 	}
 
 
@@ -135,11 +135,67 @@ this.clearAll();
 	}
 
 
+	public void plot(double xReal, double zReal)
+	{
+		this.spaceConverter.convertRealToPixel(xReal, zReal, this.bufferConverter);
+
+		this.drawable.drawLine((int)bufferConverter.x, (int)bufferConverter.z, (int)bufferConverter.x, (int)bufferConverter.z);
+// TODO obtimize
+		this.repaint();
+	}
+
+
 // -------------------------------------------------
 // Private methods
 // -------------------------------------------------
 	private boolean isPanelShown()
 	{
 		return this.colorBG.equals(GuiResource.panelDraw_colorBG_show);
+	}
+
+
+	private void plotAxes()
+	{
+		PointDouble horizontalLeft	= new PointDouble(-1, -1);
+		PointDouble horizontalRight	= new PointDouble(-1, -1);
+		PointDouble verticalTop		= new PointDouble(-1, -1);
+		PointDouble verticalBottom	= new PointDouble(-1, -1);
+
+		this.spaceConverter.getAxesLimitsPixel(horizontalLeft, horizontalRight, verticalTop, verticalBottom);
+		this.drawable.setColor(this.colorAxes);
+		this.drawable.drawLine((int)horizontalLeft.x,	(int)horizontalLeft.z,	(int)horizontalRight.x,	(int)horizontalRight.z);
+		this.drawable.drawLine((int)verticalTop.x,		(int)verticalTop.z,		(int)verticalBottom.x,	(int)verticalBottom.z);
+	}
+
+
+	private void plotParabolaLimit()
+	{
+		double step		= this.spaceConverter.getXDist_real() * GuiResource.frame_drawStep;
+		double limit	= this.spaceConverter.getXMin_real() + this.spaceConverter.getXDist_real();
+		double x0Real	= this.spaceConverter.getXMin_real();
+		double z0Real	= this.parabolaLimitFunction(x0Real);
+		this.spaceConverter.convertRealToPixel(x0Real, z0Real, bufferConverter);
+		double x0Pixel	= bufferConverter.x;
+		double z0Pixel	= bufferConverter.z;
+		double x1Real	= x0Real, z1Real;
+
+		this.drawable.setColor(this.colorParabolLimit);
+		while (x0Real < limit)
+		{
+			x1Real	= x1Real + step;
+			z1Real	= this.parabolaLimitFunction(x1Real);
+			this.spaceConverter.convertRealToPixel(x1Real, z1Real, bufferConverter);
+			this.drawable.drawLine((int)x0Pixel, (int)z0Pixel, (int)bufferConverter.x, (int)bufferConverter.z);
+			x0Real	= x1Real;
+			z0Real	= z1Real;
+			x0Pixel	= bufferConverter.x;
+			z0Pixel	= bufferConverter.z;
+		}
+	}
+
+
+	private double parabolaLimitFunction(double x)
+	{
+		return x*x;
 	}
 }

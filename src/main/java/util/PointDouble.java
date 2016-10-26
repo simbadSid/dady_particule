@@ -22,4 +22,13 @@ public class PointDouble
 		this.z = z;
 	}
 
+
+// -------------------------------------------------
+// Public methods
+// -------------------------------------------------
+	@Override
+	public String toString()
+	{
+		return "(" + this.x + ", " + this.z + ")";
+	}
 }
